@@ -9,7 +9,7 @@ const journalEntries = [
   {
     id: 2,
     title: "Another day, another dollar",
-    content: "Woke up to Cops kicking me out of the park again. don't know why they came so early. i think someone is following me. walking to downtown to make some money, i guess its good i'm awake so early",
+    content: "Woke up to cops🤮🐷 kicking me out of the park again. don't know why they came so early. i think someone is following me. walking to downtown to make some money, i guess its good i'm awake so early",
     timestamp: "2025-05-28T06:15",
     image: ""
   }
