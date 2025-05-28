@@ -1,3 +1,7 @@
+const ADMIN_PASSWORD = 'your_password_here';
+
+let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || window.journalEntries || [];
+
 function formatDate(iso) {
   return new Date(iso).toLocaleString();
 }
@@ -17,42 +21,74 @@ function renderEntries() {
       <time>${formatDate(entry.timestamp)}</time>
       ${imgHTML}
       <p>${entry.content}</p>
-  
     `;
     container.appendChild(el);
   });
-
-  document.querySelectorAll('.comment-section button').forEach(btn =>
-    btn.addEventListener('click', handleComment)
-  );
 }
 
-function handleComment(e) {
-  const section = e.target.closest('.comment-section');
-  const textarea = section.querySelector('textarea');
-  const commentsDiv = section.querySelector('.comments');
-  const comment = textarea.value.trim();
-  if (comment) {
-    const p = document.createElement('p');
-    p.className = 'comment';
-    p.textContent = comment;
-    commentsDiv.appendChild(p);
-    textarea.value = '';
+function authenticateAdmin() {
+  const inputPassword = document.getElementById('admin-password').value;
+  if (inputPassword === ADMIN_PASSWORD) {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadEntries();
+  } else {
+    alert('Incorrect password!');
+  }
+}
+
+function loadEntries() {
+  const entriesList = document.getElementById('entries-list');
+  entriesList.innerHTML = '';
+  journalEntries.forEach((entry, index) => {
+    const item = document.createElement('li');
+    item.innerHTML = `
+      <strong>${entry.title}</strong>
+      <button onclick="editEntry(${index})">Edit</button>
+      <button onclick="deleteEntry(${index})">Delete</button>
+    `;
+    entriesList.appendChild(item);
+  });
+}
+
+function saveEntry(event) {
+  event.preventDefault();
+  const id = document.getElementById('entry-id').value;
+  const title = document.getElementById('entry-title').value;
+  const content = document.getElementById('entry-content').value;
+  const image = document.getElementById('entry-image').value;
+  const timestamp = new Date().toISOString();
+
+  const newEntry = { id: Date.now(), title, content, image, timestamp };
+
+  if (id) {
+    const index = journalEntries.findIndex(e => e.id == id);
+    if (index !== -1) journalEntries[index] = { ...journalEntries[index], title, content, image };
+  } else {
+    journalEntries.unshift(newEntry);
+  }
+
+  localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+  document.getElementById('entry-form').reset();
+  loadEntries();
+  renderEntries();
+}
+
+function editEntry(index) {
+  const entry = journalEntries[index];
+  document.getElementById('entry-id').value = entry.id;
+  document.getElementById('entry-title').value = entry.title;
+  document.getElementById('entry-content').value = entry.content;
+  document.getElementById('entry-image').value = entry.image || '';
+}
+
+function deleteEntry(index) {
+  if (confirm("Are you sure you want to delete this entry?")) {
+    journalEntries.splice(index, 1);
+    localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+    loadEntries();
+    renderEntries();
   }
 }
 
 renderEntries();
-
-function displayPublicEntries() {
-  const publicEntriesList = document.getElementById('public-entries-list');
-  publicEntriesList.innerHTML = '';
-  const entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
-  entries.forEach(entry => {
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `<strong>${entry.title}</strong><p>${entry.content}</p>`;
-    publicEntriesList.appendChild(listItem);
-  });
-}
-
-// Call this function on page load
-displayPublicEntries();

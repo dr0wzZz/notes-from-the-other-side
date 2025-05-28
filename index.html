@@ -15,6 +15,28 @@
 
   <main id="journal"></main>
 
+  <!-- Admin Panel -->
+  <div id="login-form">
+    <h2>Admin Login</h2>
+    <input type="password" id="admin-password" placeholder="Enter Admin Password" />
+    <button onclick="authenticateAdmin()">Login</button>
+  </div>
+
+  <div id="admin-panel" style="display:none;">
+    <h2>Journal Entry Editor</h2>
+    <form id="entry-form" onsubmit="saveEntry(event)">
+      <input type="hidden" id="entry-id" />
+      <input type="text" id="entry-title" placeholder="Title" required />
+      <textarea id="entry-content" placeholder="Content" required></textarea>
+      <input type="text" id="entry-image" placeholder="Image URL (optional)" />
+      <button type="submit">Save Entry</button>
+    </form>
+
+    <h3>Manage Entries</h3>
+    <ul id="entries-list"></ul>
+  </div>
+
+
   <footer>
     <p> Stay fucked up </p>
   </footer>  
