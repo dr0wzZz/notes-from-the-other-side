@@ -42,3 +42,17 @@ function handleComment(e) {
 }
 
 renderEntries();
+
+function displayPublicEntries() {
+  const publicEntriesList = document.getElementById('public-entries-list');
+  publicEntriesList.innerHTML = '';
+  const entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+  entries.forEach(entry => {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `<strong>${entry.title}</strong><p>${entry.content}</p>`;
+    publicEntriesList.appendChild(listItem);
+  });
+}
+
+// Call this function on page load
+displayPublicEntries();
