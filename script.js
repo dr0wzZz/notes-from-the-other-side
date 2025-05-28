@@ -1,3 +1,20 @@
+async function authenticateAdmin() {
+  const password = document.getElementById('admin-password').value;
+  const response = await fetch('/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ username: 'admin', password })
+  });
+  const result = await response.json();
+  if (result.success) {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadEntries();
+  } else {
+    alert('Login failed');
+  }
+}
+
 const ADMIN_PASSWORD = 'your_password_here';
 
 let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || window.journalEntries || [];
