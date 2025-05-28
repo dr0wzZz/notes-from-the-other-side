@@ -1,8 +1,8 @@
 const journalEntries = [
   {
     id: 1,
-    title: "Riffed into Oblivion",
-    content: "Last night’s gig melted face. Bass amp caught fire. Best night ever.",
+    title: "Journal entries and thoughts",
+    content: "Looks like my life has finally crumbled so hard that I'm living on the streets now. I decided to make a blog I guess to try and scream into the void. So far it's been shit, but I'm hoping it'll only get worse. see you next time",
     timestamp: "2025-05-27T22:30:00",
     image: "assets/images/amp_fire.jpg"
   },
