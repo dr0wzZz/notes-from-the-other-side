@@ -17,11 +17,7 @@ function renderEntries() {
       <time>${formatDate(entry.timestamp)}</time>
       ${imgHTML}
       <p>${entry.content}</p>
-      <div class="comment-section" data-id="${entry.id}">
-        <textarea placeholder="Scribble your thoughts..."></textarea>
-        <button>Add Comment</button>
-        <div class="comments"></div>
-      </div>
+  
     `;
     container.appendChild(el);
   });
